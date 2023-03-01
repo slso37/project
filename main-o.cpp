@@ -22,7 +22,7 @@ struct sinhvien{
   
   sinhvien(){
     name ="Nguyen Van Minh Quan";
-    id = 272222;
+    id = 2722225;
     score = 8.9;
     subject = "IT";
   }
@@ -34,7 +34,6 @@ struct sinhvien{
   };
     void Nhap(){
         GoTo(x-3, y+19); cout <<"(!) Nhap ho ten sinh vien: ";
-        int i=0;
         fflush(stdin);
         getline(cin, name);
         cin.ignore();
@@ -83,19 +82,19 @@ struct sinhvien{
 };
 
 void sort(sinhvien *person, int n);
-void loadingbar();
 void CapNhat(sinhvien *person, int n);
 float Min(sinhvien *person, int n);
 float Max(sinhvien *person, int n);
 void drawTable();
 void Press();
 void NhapSV(sinhvien *person, int &n);
-void printtable(sinhvien *person, int n);
+void printtable(int n);
 void printinfor(sinhvien *person, int n);
 void XoaSV(sinhvien *person, int &n);
 void search(sinhvien *person, int n);
 void swap(sinhvien &x, sinhvien &y);
 void sort(sinhvien *person, int n);
+
 
 int main(){
     system("cls");
@@ -112,13 +111,15 @@ int main(){
     //     }
     // }
     do{
+        TextColor(7);
+        SetConsoleOutputCP(65001);
         system("cls");
         drawTable();
         GoTo(x+12, y+16); cout<<"⚠️  LỰA CHỌN CỦA BẠN LÀ: ";
         cin>>choice;
         switch (choice){
         case 0:
-            printtable(person, count);
+            printtable(count);
             printinfor(person, count);
             cout<<endl<<endl<<endl;
             Press();
@@ -129,21 +130,21 @@ int main(){
             Sleep(2534);
             break;
         case 2:
-            printtable(person, count);
+            printtable(count);
             printinfor(person, count);
             CapNhat(person, count);
             Press();
             break;
         ///////////////////////////  
         case 3:
-            printtable(person, count);
+            printtable(count);
             printinfor(person, count);
             XoaSV(person, count);
             Sleep(2543);
             break;
          ///////////////////////////   
         case 4:
-            printtable(person, count);
+            printtable(count);
             printinfor(person, count);
             search(person, count);
             Sleep(2543);
@@ -182,30 +183,77 @@ int main(){
 
 
 void XoaSV(sinhvien *person, int &n){
-    int so;
+    int so, count =0;
+    for (int i=0; i<n; ++i){
+        count++;
+    }
+
     bool loop = false;
-    GoTo(x+4, y+28+n);
-    cout <<"ID THONG TIN SINH VIEN CAN XOA: ";
-    cin >>so;
-    for(int i=0; i<n;i++){
-        if(person[i].id == so){
-           for(int j=i;j<n;j++)
-                person[j] = person[j+1];
-                loop = true;
-            for (int i=0; i<7; ++i){
-                GoTo(x+20, y+8);
-                cout<<"Da them sinh vien ";
-                Sleep(342);
-                GoTo(x+20, y+8);
-                cout<<"                 ";
+    GoTo(x+10, y+27+count); cout<<"+-------------------------------+";
+    GoTo(x+10, y+28+count); cout<<"|";
+    GoTo(x+42, y+28+count); cout<<"|";
+    GoTo(x+14, y+28+count); cout<<"(4)Xoa thong tin sinh vien";
+
+    GoTo(x+10, y+29+count); cout<<"+------";
+    GoTo(x+10, y+30+count); cout<<"|";
+    GoTo(x+13, y+30+count); cout<<"ID";
+
+    GoTo(x+17, y+29+count); cout<<"+------------------------+";
+    GoTo(x+17, y+30+count); cout<<"|";
+    GoTo(x+42, y+30+count); cout<<"|";
+
+    GoTo(x+10, y+31+count); cout<<"+------";
+    GoTo(x+10, y+32+count); cout<<"|Status";
+    GoTo(x+10, y+33+count); cout<<"+------";
+
+    GoTo(x+17, y+31+count); cout<<"+------------------------+";
+    GoTo(x+17, y+32+count); cout<<"|";	
+    GoTo(x+42, y+32+count); cout<<"|";
+    GoTo(x+17, y+33+count); cout<<"+------------------------+";
+
+    do {
+        GoTo(x+23, y+30+count); cout<<"              ";
+        GoTo(x+23,y+32+count); cout<<"              ";
+        GoTo(x+26, y+30+count);
+        cin >>so;
+        for(int i=0; i<n;i++){
+                if(person[i].id == so){
+                    for(int j=i; j<n; j++){
+                        person[j] = person[j+1];
+                    }
+                    n--;
+                    break;
+                } else if (person[i].id != so) {
+                    GoTo(x+23,y+32+count);
+                    cout<<"KHONG HOP LE!";
+                    Sleep(243);
+                    loop = true;
+                }
             }
-        }
+    } while (loop == true);   
+	srand(time(NULL));
+    //Set ASCII to print special character.
+    //Code page 437
+    GoTo(x+18, y+32+count);
+    SetConsoleCP(437);
+    SetConsoleOutputCP(437);
+    int bar1 = 177, bar2 = 219;
+	int m;
+    for(int i = 0; i < 24; i++){
+		TextColor(10);
+        cout << (char)bar1;
+	}
+    GoTo(x+18,y+32+count);
+    for(int i = 0; i < 23; i++){
+		TextColor(10);
+        cout << (char)bar2;
+		m = rand() % 500 +1;
+        Sleep(m);
     }
-    if(loop == false){
-        GoTo(x+4, y+29+n);
-        cout <<"Ban da nhap ma so sinh vien sai!"<<endl;
-    }
-    else n--;
+    Sleep(645);
+    GoTo(x+18,y+32+count); cout<<"                        ";
+    GoTo(x+25,y+32+count); cout<<"COMPLETE!";
+    GoTo(x+25,y+35+count);
 }
 void printinfor(sinhvien *person, int n){
     for (int i=0; i<n; ++i){
@@ -255,17 +303,10 @@ void NhapSV(sinhvien *person, int &n){
         } else if (choice =='n' || choice =='N'){
             loop = false;
             system("cls");
-            for (int i=0; i<7; ++i){
-                GoTo(x+20, y+8);
-                cout<<"Da them sinh vien ";
-                Sleep(342);
-                GoTo(x+20, y+8);
-                cout<<"                 ";
-            }
         }
     } while (loop == true);
 }
-void printtable(sinhvien *person, int n){
+void printtable(int n){
     GoTo(x-4, y+19); cout<<"+"; cout<<"-----"; 
     GoTo(x+2, y+19); cout<<"+"; cout<<"-----------------------";
     GoTo(x+26, y+19); cout<<"+"; cout<<"---------";
@@ -425,36 +466,9 @@ void TextColor(int x){
     HANDLE h= GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(h, x);
 }
-void loadingbar(){	
-    printf("\e[?25l");
-	srand(time(NULL));
-    //Set ASCII to print special character.
-    //Code page 437
-    SetConsoleCP(437);
-    SetConsoleOutputCP(437);
-    int bar1 = 177, bar2 = 219;
-	int n;
-    
-    cout << "\n\n\n\t\t\t\t\tLoading...";
-    cout << "\n\n\n\t\t\t\t";
-
-    for(int i = 0; i < 25; i++){
-		TextColor(10);
-        cout << (char)bar1;
-	}
-    cout <<"\r";
-    cout <<"\t\t\t\t";
-    for(int i = 0; i < 25; i++){
-		TextColor(10);
-        cout << (char)bar2;
-		n = rand() % 500 +1;
-        Sleep(n);
-    }
-    cout<<"\n\n\n\t\t\t\t\t" << "COMPLETE!\n\n\n\t\t\t\t";
-}
 void search(sinhvien *person, int n){
     bool loop = true;
-    int choice, ID, count =0;
+    int ID =0;
     do{
         cout<<"(4) Tim kiem thong tin sinh vien";
         cout<<"           (!) Nhap ID sinh vien: ";
@@ -487,12 +501,12 @@ void CapNhat(sinhvien *person, int n){
            loop = true;
         }
     }
-    if(loop = false)
+    if(loop == false)
         cout <<"Ban da nhap ma so sinh vien sai!"<<endl;
 } 
 void sort(sinhvien *person, int n){
     bool loop = true;
-    char choice, ID, count =0;
+    char choice;
     do{
         cout<<"(5) Sap xep thong tin sinh vien";
         cout<<"           (!) Sap xep theo diem sinh vien: ";
@@ -515,11 +529,13 @@ void sort(sinhvien *person, int n){
                 cout<<person[i].subject;
                 cout<<"\n\n\n";
             }
+            loop = false;
             break;
         case '?':
             for (int i= (person[i].name).size(); i>0; --i){ //***
 
             }
+            loop = false;
             break;
         default:
             system("cls");
